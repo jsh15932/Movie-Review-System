@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 
 import Util.DatabaseUtil;
 
-public class userDAO {
+public class UserDAO {
 
 	public int join(String userID, String userPassword) {
 		String SQL = "INSERT INTO USER VALUES (?, ?)";
