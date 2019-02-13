@@ -16,18 +16,19 @@
 	if(userID == null || userPassword == null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("alert('입력이 되지 않았습니다.')");
+		script.println("alert('입력이 되지 않았습니다.');");
 		script.println("history.back();");
 		script.println("</script>");
 		script.close();
 		return;
 	}
+	
 	UserDAO userDAO = new UserDAO();
 	int result = userDAO.join(userID, userPassword);
 	if(result == 1) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("alert('회원가입에 성공했습니다.')");
+		script.println("alert('회원가입에 성공했습니다.');");
 		script.println("location href = 'index.jsp';");
 		script.println("</script>");
 		script.close();
