@@ -57,36 +57,43 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-			</div>
-			<div class="modal-body">
-				<form action="./reviewRegisterAction.jsp" method="post">
-					<div class="form-row">
-						<div class="form group col-sm-6">
-							<label>영화 제목</label>
-							<input type="text" name="moiveTitle" class="form-control" maxlength="20">
+				<div class="modal-body">
+					<form action="./reviewRegisterAction.jsp" method="post">
+						<div class="form-row">
+							<div class="form group col-sm-4">
+								<label>영화 제목</label>
+								<input type="text" name="moiveTitle" class="form-control" maxlength="60">
+							</div>
+						</div>	
+						<div class="form-row">
+							<div class="form group col-sm-4">
+								<label>리뷰 제목</label>
+								<input type="text" name="reviewTitle" class="form-control" maxlength="60">
+							</div>
 						</div>
-						<div class="form group col-sm-6">
-							<label>리뷰 제목</label>
-							<input type="text" name="reviewTitle" class="form-control" maxlength="20">
+						<div class="form-row">
+							<div class="form-group col-sm-4">
+								<label>분류</label>
+								<select name="moiveCountry" class="form-control">
+									<option value="국내영화" selected>국내영화</option>
+									<option value="외국영화">외국영화</option>
+								</select>
+							</div>	
+							<div class="form-group col-sm-4">
+								<label>추천</label>
+								<select name="moiveRecommend" class="form-control">
+									<option value="recommend" selected>추천</option>
+									<option value="notRecommend">비추천</option>
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="form-group col-sm-4">
-						<label>분류</label>
-						<select name="moiveCountry" class="form-control">
-							<option value="국내영화" selected>국내영화</option>
-							<option value="외국영화">외국영화</option>
-						</select>
-					</div>	
-						<label>추천</label>
-					<div class="form-group col-sm-4">
-						<select name="moiveRecommend" class="form-control">
-							<option value="recommend" selected>추천</option>
-							<option value="notRecommend">비추천</option>
-						</select>
-					</div>	
-				</form>
+						<div class="form-row">
+							<label>내용</label>
+							<textarea type="text" name="reviewContent" class="form-control" maxlength="2048" style="height:180px;"></textarea>
+						</div>	
+					</form>
+				</div>
 			</div>
-		</div>
 	<!-- jquery 자바스크립트 추가 -->
 	<script src="./js/jquery.min.js"></script>
 	<!-- popper 자바스크립트 추가 -->
