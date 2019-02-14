@@ -38,7 +38,7 @@ public class UserDTO {
 		this.userEmailChecked = userEmailChecked;
 	}
 	
-	public userDTO() {
+	public UserDTO() {
 		
 	}
 	
