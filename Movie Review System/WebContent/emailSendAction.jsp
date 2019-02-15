@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page language="javax.mail.*" %>
+<%@ page language="javax.mail.Transport" %>
+<%@ page language="javax.mail.Message" %>
+<%@ page language="javax.mail.Address" %>
+<%@ page language="javax.mail.internet.InternetAddress" %>
+<%@ page language="javax.mail.internet.MimeMessage" %>
+<%@ page language="javax.mail.Session" %>
+<%@ page language="javax.mail.Authenticator" %>
 <%@ page language="java.util.Properties" %>
 <%@ page language="user.UserDAO" %>
-<%@ page language="util.SHA256" %>
-<%@ page language="util.Gmail" %>
+<%@ page language="Util.SHA256" %>
+<%@ page language="Util.Gmail" %>
 <%@ page language="java.io.PrintWriter" %>
 <%
 	UserDAO userDAO = new UserDAO();
@@ -32,12 +38,12 @@
 		return;
 	}
 	
-	String host = "http://localhost:8080/Movie_Review_System/";"
+	String host = "http://localhost:8080/Movie_Review_System";
 	String from = "jsh1938@gmail.com";
 	String to = userDAO.getUserEmail(userID);
 	String subject = "커뮤니티 사용을 위한 이메일 인증 메일입니다.";
-	Strung contetn = "다음 링크에 접속하여 이메일 인증을 진행하세요" + 
-		"<a href='" + host + "emailCheckActAion.jsp?code=" + new SHA256().getSHA256(to)"'>이메일 인증하기</a>";
+	String content = "다음 링크에 접속하여 이메일 인증을 진행하세요" + 
+		"<a href='" + host + "emailCheckAction.jsp?code=" + new SHA256().getSHA256(to) + "'>이메일 인증하기</a>";
 	
 		Properties p = new Properties();
 		p.put("mail.smtp.user", from);
@@ -52,10 +58,16 @@
 		
 		try {
 			Authenticator auth = new Gmail();
-			Session ses = Session.getInstance(p, auth]);
+			Session ses = Session.getInstance(p, auth);
 			ses.setDebug(true);
-			M
-			
+			MimeMessage msg = new MimeMessage(ses);
+			msg.setSubject(subject);
+			Address formAddr = new InternetAddress(from);
+			msg.setFrom(fromAddr);
+			Address toAddr = new InternetAddress(to);
+			msg.addRecipient(Message.RecipentType.TO, toAddr);
+			msg.setContent(content, "text/html;charset=UTF8");
+			Transport.send(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 			PrintWriter script = response.getWriter();
@@ -66,64 +78,56 @@
 			script.close();
 			return;
 		}
-		
-		if(result == -1) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('이미 존재하는 아이디입니다.');");
-		script.println("history.back();");
-		script.println("</script>");
-		userPassword = request.getParameter("userPassword");
-	}
-	
-	else {
-		session.setAttribute("userID", userID);
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("location.href = 'emailSendAction.jsp'");
-		script.println("</script>");
-		script.close();
-		return;
-	}	
-	request.setCharacterEncoding("UTF-8");
-	String userID = null;
-	String userPassword = null;
-	String userEmail = null; 
-	if(requst.getParameter("userID") != null) {
-		userID = request.getParameter("userID");
-	}
-	if(request.getParameter("userPassword") != null) {
-		userPassword = request.getParameter("userPassword");
-	}
-	if(request.getParameter("userEmail") != null) {
-		userPassword = request.getParameter("userEmail");
-	}
-	if(userID == null || userPassword == null || userEmail == null) {
-		PrintWriter.script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('입력되지 않은 사항이 있습니ek.');");
-		script.println("history.back();");
-		script.println("</script>");
-		script.close();
-		return;
-	UserDAO userDAO = new UserDAO();
-	int result = userDAO.join(new UserDTO(userID, userPassword, userEmail, SHA256.getSHA256(userEmail), false));
-	if(result == -1) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('이미 존재하는 아이디입니다.');");
-		script.println("history.back();");
-		script.println("</script>");
-		userPassword = request.getParameter("userPassword");
-	}
-	
-	else {
-		session.setAttribute("userID", userID);
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("location.href = 'emailSendAction.jsp'");
-		script.println("</script>");
-		script.close();
-		return;
-	}	
-%>    
+%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>영화 리뷰 웹 사이트</title>
+	<!-- 부트스트랩 css 추가 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<!-- 커스텀 css 추가 -->
+	<link rel="stylesheet" href="./css/custom.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="index.jsp">영화 리뷰 웹 사이트</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="index.jsp">메인</a>
+				</li>
+					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">회원 메뉴</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown">
+						<a class="dropdown-item" href="userJoin.jsp">회원가입</a>
+						<a class="dropdown-item" href="uesrLogin.jsp">로그인</a>
+						<a class="dropdown-item" href="userLogout.jsp">로그아웃</a>
+						<a class="dropdown-item" href="#">회원탈퇴</a>
+					</div>	
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="내용을 입력하세요." aria-label="search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+				</form>
+		</div>
+	</nav>
+	<section class="container mt-3" style="max-width:560px;">
+		<div class="alert alert-success mt-4" role="alert">
+			이메일 주소 인증 메일이 전송되었습니다. 회원가입 시 입력했던 이메일에 들어가셔서 인증해주세요.
+		</div>
+    </section>
+	<footer class="bg-dark mt-4 p-5 text-center" style="color:#FFFFFF;">
+	Copyright &copy; 2019 장승훈 ALL RIGHTS RESERVED.
+	</footer>
+	<!-- jquery 자바스크립트 추가 -->
+	<script src="./js/jquery.min.js"></script>
+	<!-- popper 자바스크립트 추가 -->
+	<script src="./js/popper.min.js"></script>
+	<!-- bootstrap 자바스크립트 추가 -->
+	<script src="./js/bootstrap.min.js"></script>
+</body>
+</html>
