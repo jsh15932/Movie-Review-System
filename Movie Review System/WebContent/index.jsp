@@ -61,6 +61,7 @@
 	                   	<a href="#">★</a>
 	                   </p>
 	             </div>
+	             <img class="d-block w-50" src="./img/극한직업.jpg" alt="극한직업">
              </div>
          </div>
          <div class="card-body">
