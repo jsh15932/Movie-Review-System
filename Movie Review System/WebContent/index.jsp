@@ -20,7 +20,7 @@
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
 						<a class="nav-link" href="index.jsp">메인</a>
-					</li>111
+					</li>
 						<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown">회원 메뉴</a>
 			           	<div class="dropdown-menu" aria-labelledby="dropdown">
